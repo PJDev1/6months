@@ -1,4 +1,5 @@
 const playBtn = document.getElementById("playBtn");
+const replayBtn = document.getElementById("replayBtn");
 const song = document.getElementById("song");
 const text = document.querySelector(".text");
 const textContainer = document.querySelector(".text-container"); 
@@ -24,7 +25,10 @@ const messages = [
   
 
 function showMessage(index) {
-  if (index >= messages.length) return;
+  if (index >= messages.length){
+    replayBtn.style.display = 'inherit';
+    return;
+  }
   const message = messages[index];
   text.textContent = "";
   text.style.opacity = 1;
@@ -47,9 +51,9 @@ function showMessage(index) {
   }, 100);
 }
 
-playBtn.addEventListener("click", () => {
+function play(){
   playBtn.style.opacity = 0;
-
+  
   setTimeout(() => {
     playBtn.style.display = "none";
 
@@ -62,4 +66,8 @@ playBtn.addEventListener("click", () => {
     showMessage(0);
     text.style.animation = "cursor .4s step-end infinite alternate";
   }, 1500);
-});
+}
+
+playBtn.addEventListener("click", play);
+
+replayBtn.addEventListener("click", play);

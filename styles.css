@@ -42,6 +42,14 @@ body {
   text-overflow: ellipsis;
 }
 
+.replay{
+  display: none;
+}
+
+#replayBtn {
+  transition: opacity 1.5s ease;
+}
+
 /* Animación de aparición */
 #playBtn {
   transition: opacity 1.5s ease;
