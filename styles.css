@@ -1,3 +1,8 @@
+* {
+  box-sizing: border-box;
+}
+
+
 html,
 body {
   margin: 0;
@@ -15,9 +20,12 @@ body {
   width: 100%;
   min-height: 100vh;
   display: flex;
+  flex-direction: column; /* Para stacking natural en móviles */
   justify-content: center;
   align-items: center;
   padding: 20px;
+  text-align: center;
+  gap: 20px;
 }
 
 /* Botón de inicio */
@@ -28,8 +36,10 @@ body {
   border-radius: 100px;
   cursor: pointer;
   font-size: clamp(24px, 6vw, 48px);
-  text-align: center;
   white-space: nowrap;
+  max-width: 90vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Animación de aparición */
@@ -76,16 +86,15 @@ body {
 @media (max-width: 400px) {
   .container {
     padding: 40px 20px;
-    flex-direction: column;
-    justify-content: flex-start;
+    gap: 30px;
   }
 
   .start {
     width: 100%;
-    max-width: 300px;
+    font-size: clamp(20px, 5vw, 36px);
   }
 
   .text-container {
-    max-width: 100%;
+    padding: 0 5px;
   }
 }
