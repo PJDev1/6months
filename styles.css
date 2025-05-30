@@ -2,7 +2,6 @@
   box-sizing: border-box;
 }
 
-
 html,
 body {
   margin: 0;
@@ -14,6 +13,32 @@ body {
   min-height: 100vh;
   box-sizing: border-box;
 }
+
+.gallery{
+  display: none;
+}
+
+/* body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.us {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background-image: url('images/cute-cat.png'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  pointer-events: none; 
+  animation: flotar 20s infinite ease-in-out;
+}
+
+@keyframes flotar {
+  0%, 100% { transform: translateX(80px) rotate(180deg); }
+  0% { transform: translateY(10px) rotate(10deg); }
+} */
 
 /* Contenedor principal */
 .container {
@@ -42,7 +67,7 @@ body {
   text-overflow: ellipsis;
 }
 
-.replay{
+.none{
   display: none;
 }
 
@@ -74,6 +99,14 @@ body {
   text-align: center;
   opacity: 0;
   transition: opacity 1s ease;
+}
+
+.btn__container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
 
 /* Animación de cursor */
