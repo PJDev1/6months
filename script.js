@@ -33,7 +33,7 @@ let messages1 = [
   "Cada canción tuya terminó siendo parte de mi historia.",
   "Conocer tu música fue como asomarme a tu mundo. <3",
   "Tener a alguien tan comprensivo como tú ha sido un regalo.",
-  "Te amo 💖",
+  "Felices 6 meses. Te amo 💖",
 ];
 
 function numeroAleatorio1a18() {
