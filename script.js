@@ -5,7 +5,7 @@ const text = document.querySelector(".text");
 const textContainer = document.querySelector(".text-container");
 const contador = document.getElementById('contador');
 
-const messages1 = [
+const messages = [
   "Hace casi 9 meses...",
   "Empecé a hablarte sin tener idea de todo lo que vendría después.",
   "Jamás imaginé que ese día marcaría el inicio de algo tan especial.",
@@ -24,7 +24,7 @@ const messages1 = [
   "Te amo 💖",
 ];
 
-const messages = [''];
+const messages1 = [''];
 
 const ahora = new Date(); // fecha actual
 const cumple = new Date('2024-06-15'); // fecha específica (ISO recomendado)
