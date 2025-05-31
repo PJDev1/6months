@@ -1,11 +1,23 @@
+// === 1) PRELOAD: crea un array de Image para p1.jpg… p18.jpg ===
+const precargadas = [];
+for (let i = 1; i <= 4; i++) {
+  const img = new Image();
+  img.src = `images/p${i}.jpg`;
+  img.alt = "Nosotros";
+  img.className = "photo";
+
+  precargadas.push(img);
+}
+
 const playBtn = document.getElementById("playBtn");
 const replayBtn = document.getElementById("replayBtn");
 const song = document.getElementById("song");
 const text = document.querySelector(".text");
 const textContainer = document.querySelector(".text-container");
-const contador = document.getElementById('contador');
+const btnContainer = document.querySelector(".btn__container");
+const photoFrame = document.getElementById("photo-frame");
 
-const messages = [
+let messages1 = [
   "Hace casi 9 meses...",
   "Empecé a hablarte sin tener idea de todo lo que vendría después.",
   "Jamás imaginé que ese día marcaría el inicio de algo tan especial.",
@@ -17,100 +29,66 @@ const messages = [
   "Estoy justo debajo de ti en la foto de generación,",
   "y aún así nunca nos vimos.",
   "Tuvieron que pasar muchas cosas para que finalmente nos conociéramos.",
-  "Gracias por tantas conversaciones bonitas que hemos compartido.",
-  "Gracias por todas esas noches en las que escuchábamos música y todas eran tus canciones <3",
-  "Gracias por mostrarme tus bandas y cancioness favoritas",
-  "Gracias por ser tan dulce y tener tanta paciencia conmigo.",
+  "Lo que hemos compartido hablando no lo cambiaría por nada.",
+  "Cada canción tuya terminó siendo parte de mi historia.",
+  "Conocer tu música fue como asomarme a tu mundo. <3",
+  "Tener a alguien tan comprensivo como tú ha sido un regalo.",
   "Te amo 💖",
 ];
 
-const messages1 = [''];
-
-const ahora = new Date(); // fecha actual
-const cumple = new Date('2024-06-15'); // fecha específica (ISO recomendado)
-const desdeNumeros = new Date(2024, 5, 15); // año, mes (0-indexado), día → 15 de junio de 2024
-
-function currentTime(){
-  let date = new Date();
-  let hh = date.getHours();
-  let mm = date.getMinutes();
-  let ss = date.getSeconds();
-  
-  hh = (hh < 10) ? "0" + hh : hh;
-  mm = (mm < 10) ? "0" + mm : mm;
-  ss = (ss < 10) ? "0" + ss : ss;
-  
-  let time = hh + ":" + mm + ":" + ss;
-  
-  return date;
-  
+function numeroAleatorio1a18() {
+  return Math.floor(Math.random() * 4) + 1;
 }
 
-function diferenciaCompleta() {
-  const fechaInicio = new Date('2024-12-02T02:30:00');
-  const fechaActual = new Date();
+// Inserta la <img> usando la precarga en vez de crear la ruta al vuelo
+function generarImagenAleatoria() {
+  const numero = numeroAleatorio1a18();
+  // En lugar de crear un <img> y luego asignar src,
+  // podemos clonar del array precargado para garantizar que está listo.
+  const imagen = precargadas[numero - 1].cloneNode(); 
+  // cloneNode() copia todos los atributos (src, width, height, etc.)
 
-  let inicio = new Date(fechaInicio);
-  let fin = new Date(fechaActual);
-
-  if (fin < inicio) [inicio, fin] = [fin, inicio]; // asegurar orden
-
-  let años = fin.getFullYear() - inicio.getFullYear();
-  let meses = fin.getMonth() - inicio.getMonth();
-  let días = fin.getDate() - inicio.getDate();
-  let horas = fin.getHours() - inicio.getHours();
-  let minutos = fin.getMinutes() - inicio.getMinutes();
-  let segundos = fin.getSeconds() - inicio.getSeconds();
-
-  // Ajustes hacia atrás si algo es negativo
-  if (segundos < 0) {
-    segundos += 60;
-    minutos--;
-  }
-  if (minutos < 0) {
-    minutos += 60;
-    horas--;
-  }
-  if (horas < 0) {
-    horas += 24;
-    días--;
-  }
-  if (días < 0) {
-    const mesAnterior = new Date(fin.getFullYear(), fin.getMonth(), 0);
-    días += mesAnterior.getDate();
-    meses--;
-  }
-  if (meses < 0) {
-    meses += 12;
-    años--;
-  }
-
-  let time = `Meses: ${meses}, Días: ${días}, Horas: ${horas}, Minutos: ${minutos}, Segundos: ${segundos}`;
-
-  let contador = document.querySelector(`#contador`);
-  contador.innerHTML = time;
-
-  let title = document.querySelector('#title');
-  title.innerHTML = "Tiempo Juntos";
-
-  return { años, meses, días, horas, minutos, segundos };
+  // Limpia y agrega
+  photoFrame.innerHTML = "";
+  photoFrame.appendChild(imagen);
 }
+
+let messages = [""];
+
+messages = messages1;
 
 function showMessage(index) {
   if (index >= messages.length) {
-    setInterval(diferenciaCompleta, 1000);
+    // Cuando ya no hay más índices, GENERO LA IMAGEN y luego muestro foto+btn
+    generarImagenAleatoria();
     setTimeout(() => {
-      replayBtn.style.display = "inherit";
-    },2000);
+      // 1) Ensayo: ocultar cualquier resto de clases de animación
+      btnContainer.classList.remove("fade-in");
+      btnContainer.classList.add("none"); // lo dejamos oculto
+      photoFrame.classList.remove("fade-in");
+      replayBtn.classList.remove("fade-in", "none");
+
+      // 2) Ahora quitamos “none” y aplicamos “fade-in” para que aparezcan de nuevo
+      btnContainer.classList.remove("none");
+      btnContainer.classList.add("fade-in");
+
+      // El photoFrame ya no tenía .none (estaba dentro de btnContainer), 
+      // sólo nos aseguramos de aplicar la animación
+      photoFrame.classList.add("fade-in");
+
+      // Mostrar el botón de “Volver a reproducir”
+      replayBtn.classList.remove("none");
+      replayBtn.classList.add("fade-in");
+    }, 2000);
     return;
   }
-  
+
   const message = messages[index];
   text.textContent = "";
   text.style.opacity = 1;
-  
+
   let charIndex = 0;
-  
+
   const typingInterval = setInterval(() => {
     if (charIndex < message.length) {
       text.textContent += message.charAt(charIndex);
@@ -129,12 +107,10 @@ function showMessage(index) {
 
 function play() {
   playBtn.style.opacity = 0;
-  replayBtn.style.display = "none";
-
 
   setTimeout(() => {
     playBtn.style.display = "none";
-
+    song.currentTime = 0;
     song.play();
 
     // Muestra el texto con fade y animación
@@ -145,7 +121,34 @@ function play() {
   }, 1500);
 }
 
+function replay() {
+  // 1) Limpiar el photoFrame (ocultar la foto)
+  photoFrame.innerHTML = "";
+
+  // 2) Ocultar TODO el bloque btnContainer y botón
+  btnContainer.classList.add("none");
+  btnContainer.classList.remove("fade-in");
+  replayBtn.classList.add("none");
+  replayBtn.classList.remove("fade-in");
+
+  // 3) Ocultar el texto (si aún sigue visible)
+  textContainer.style.display = "none";
+  text.style.opacity = 0;
+  text.style.animation = ""; // quita la animación de cursor si quedó
+
+  // 4) Reiniciar audio y reproducir
+  song.currentTime = 0;
+  song.play();
+
+  // 5) Volver a iniciar la “secuencia de texto → foto+btn”
+  setTimeout(() => {
+    textContainer.style.display = "inline-block";
+    text.style.animation = "cursor .4s step-end infinite alternate";
+    showMessage(0);
+  }, 1500);
+}
+
+
 playBtn.addEventListener("click", play);
 
-replayBtn.addEventListener("click", play);
-
+replayBtn.addEventListener("click", replay);
